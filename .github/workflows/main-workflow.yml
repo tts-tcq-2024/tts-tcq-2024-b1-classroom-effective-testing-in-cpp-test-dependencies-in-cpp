@@ -1,0 +1,26 @@
+name: Build and Run
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: tshirts fail
+      run: |
+        g++ -Wall -Wextra -Werror tshirts.cpp -o tshirts.out
+        bash .github/workflows/expectfail.sh ./tshirts.out
+
+    - name: misaligned fail
+      run: |
+        g++ -Wall -Wextra -Werror misaligned.cpp -o misaligned.out
+        bash .github/workflows/expectfail.sh ./misaligned.out
+
+    - name: alerter fail
+      run: |
+        g++ -Wall -Wextra -Werror alerter.cpp -o alerter.out
+        bash .github/workflows/expectfail.sh ./alerter.out
