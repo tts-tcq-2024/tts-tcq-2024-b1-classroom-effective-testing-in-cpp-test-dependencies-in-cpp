@@ -5,25 +5,27 @@ int alertFailureCount = 0;
 
 int networkAlertStub(float celcius) {
     std::cout << "ALERT: Temperature is " << celcius << " celcius.\n";
-    // Simulate failure for temperatures above 200 Celsius
-    if (celcius > 200) {
-        return 500;
-    }
-    return 200;
+    // Return 200 for ok
+    // Return 500 for not-ok
+    // Modify to return 500 when temperature is above a threshold
+    return (celcius > 200) ? 500 : 200;
 }
 
 void alertInCelcius(float farenheit) {
     float celcius = (farenheit - 32) * 5 / 9;
     int returnCode = networkAlertStub(celcius);
     if (returnCode != 200) {
+        // Correctly increment failure count
         alertFailureCount += 1;
     }
 }
 
 int main() {
-    alertInCelcius(400.5);
-    alertInCelcius(303.6);
-    assert(alertFailureCount == 2); // This should fail with the current buggy implementation
+    // Add test cases that should fail
+    alertInCelcius(400.5);  // Should fail
+    alertInCelcius(303.6);  // Should fail
+    alertInCelcius(50.0);   // Should pass
+    assert(alertFailureCount == 2);  // Test should fail because the count should be 2
     std::cout << alertFailureCount << " alerts failed.\n";
     std::cout << "All is well (maybe!)\n";
     return 0;
