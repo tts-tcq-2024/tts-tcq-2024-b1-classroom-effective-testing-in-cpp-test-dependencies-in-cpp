@@ -15,6 +15,7 @@ char size(int cms) {
 
 int main() {
     assert(size(37) == 'S');
+    assert(size(38) == 'M');  // Added to catch bug
     assert(size(40) == 'M');
     assert(size(43) == 'L');
     std::cout << "All is well (maybe!)\n";
