@@ -39,7 +39,6 @@ void testColorMapFormat() {
     assert(formattedColorMap.find("2 | White | Green") != std::string::npos);
     assert(formattedColorMap.find("3 | White | Brown") != std::string::npos);
     assert(formattedColorMap.find("4 | White | Slate") != std::string::npos);
-    // Add more checks if necessary to catch alignment issues
 }
 
 int main() {
