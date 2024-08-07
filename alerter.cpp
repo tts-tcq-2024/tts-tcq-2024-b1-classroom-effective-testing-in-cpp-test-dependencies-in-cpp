@@ -1,31 +1,44 @@
 #include <iostream>
 #include <assert.h>
+#include <functional>
 
 int alertFailureCount = 0;
 
 int networkAlertStub(float celcius) {
     std::cout << "ALERT: Temperature is " << celcius << " celcius.\n";
-    // Return 200 for ok
-    // Return 500 for not-ok
-    // stub always succeeds and returns 200
+    // Simulate failure for temperatures above a certain threshold for testing
+    if (celcius > 200) {
+        return 500;
+    }
     return 200;
 }
 
-void alertInCelcius(float farenheit) {
+void alertInCelcius(float farenheit, std::function<int(float)> networkAlert) {
     float celcius = (farenheit - 32) * 5 / 9;
-    int returnCode = networkAlertStub(celcius);
+    int returnCode = networkAlert(celcius);
     if (returnCode != 200) {
-        // non-ok response is not an error! Issues happen in life!
-        // let us keep a count of failures to report
-        // However, this code doesn't count failures!
-        // Add a test below to catch this bug. Alter the stub above, if needed.
-        alertFailureCount += 0;
+        alertFailureCount += 1;
     }
 }
 
+void testAlerter() {
+    alertFailureCount = 0;
+
+    // Test with a temperature that should trigger a failure
+    alertInCelcius(400.5, networkAlertStub); // Should fail (celcius > 200)
+    assert(alertFailureCount == 1);
+
+    // Test with a temperature that should not trigger a failure
+    alertInCelcius(303.6, networkAlertStub); // Should pass (celcius <= 200)
+    assert(alertFailureCount == 1); // Should still be 1
+
+    // Test with another temperature that should trigger a failure
+    alertInCelcius(500.0, networkAlertStub); // Should fail (celcius > 200)
+    assert(alertFailureCount == 2);
+}
+
 int main() {
-    alertInCelcius(400.5);
-    alertInCelcius(303.6);
+    testAlerter();
     std::cout << alertFailureCount << " alerts failed.\n";
     std::cout << "All is well (maybe!)\n";
     return 0;
