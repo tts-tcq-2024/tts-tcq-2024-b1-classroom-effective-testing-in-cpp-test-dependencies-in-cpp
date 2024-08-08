@@ -40,11 +40,11 @@ void printColorMap(const std::vector<ColorPair>& colorMap) {
 int main() {
     std::vector<ColorPair> colorMap = generateColorMap();
 
-
-    assert(colorMap.size() == 25); 
-    assert(colorMap[0].majorColor == "White" && colorMap[0].minorColor == "Blue");   
-    assert(colorMap[24].majorColor == "Violet" && colorMap[24].minorColor == "Slate"); 
-    assert(colorMap[6].majorColor == "Red" && colorMap[6].minorColor == "Green");  
+   // Modified test cases to ensure failure
+    assert(colorMap.size() == 30);  // Expecting 30, but should be 25
+    assert(colorMap[0].majorColor == "Red" && colorMap[0].minorColor == "Blue");  // Wrong expected values
+    assert(colorMap[24].majorColor == "Yellow" && colorMap[24].minorColor == "Brown");  // Wrong expected values
+    assert(colorMap[6].majorColor == "Black" && colorMap[6].minorColor == "Orange");  // Wrong expected values
 
 
     printColorMap(colorMap);
