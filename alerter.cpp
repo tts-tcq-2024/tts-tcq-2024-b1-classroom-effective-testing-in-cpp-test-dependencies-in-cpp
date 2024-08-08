@@ -20,8 +20,8 @@ void alertInCelcius(float farenheit) {
 }
 
 int main() {
-    alertInCelcius(400.5);
-    alertInCelcius(303.6);
+    alertInCelcius(400.5); // 204.72 in celcius >> returns 500
+    alertInCelcius(303.6); // 151.89 in celcius >> returns 200
     
     // Intentionally failing test
     assert(alertFailureCount > 0);  // This test should fail due to the implementation issue
